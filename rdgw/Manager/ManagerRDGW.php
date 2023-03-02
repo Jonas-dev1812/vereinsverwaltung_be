@@ -1,11 +1,10 @@
 <?php
 
-class ManagerRDGW {
-	
+class ManagerRDGW
+{
 	private string $username;
 	private string $password;
 	private string $session; 
-
 
 	public function getUsername() {
 		return $this->username;
@@ -35,8 +34,8 @@ class ManagerRDGW {
 		return 6;
 	}
 
-	public function update(): int {
-		return 4;
+	public function update(): void
+	{
 	}
 
 }

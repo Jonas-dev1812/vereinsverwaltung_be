@@ -25,8 +25,8 @@ class ClubRDGW {
 		return 6;
 	}
 
-	public function update(): int {
-		return 4;
+	public function update(): void
+	{
 	}
 
 }
