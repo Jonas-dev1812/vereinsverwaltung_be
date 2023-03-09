@@ -18,20 +18,23 @@ class ManagerRDGW
 		return $this->session;
 	}
 
-	public function setUsername($username) {
+	public function setUsername(string $username)
+	{
 		$this->username = $username;
 	}
 
-	public function setPassword($password) {
+	public function setPassword(string $password)
+	{
 		$this->password = $password;
 	}
 
-	public function setSession($session) {
+	public function setSession(string $session)
+	{
 		$this->session = $session;
 	}
 
-	public function insert(): int {
-		return 6;
+	public function insert(): void
+	{
 	}
 
 	public function update(): void
