@@ -2,8 +2,8 @@
 
 class ClubRDGW {
 
-	private string $clubName;
-	private string $clubType;
+	private $clubName;
+	private $clubType;
 
 	public function getClubName(){
 		return $this->clubName;

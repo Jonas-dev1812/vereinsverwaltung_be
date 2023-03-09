@@ -2,14 +2,26 @@
 
 class MemberRDGW
 {
-	private string $firstName;
-	private string $lastName;
-	private DateTime $birthDate;
-	private Gender $gender;
-	private string $telephoneNumber;
-	private string $email;
-	private int $discount;
-	private int $clubID;
+	private $firstName;
+	private $lastName;
+	private $birthDate;
+	private $gender;
+	private $telephoneNumber;
+	private $email;
+	private $discount;
+	private $clubID;
+	private $addressInformationID;
+	private $bankAccountID;
+
+	public function getAddressInformationID(): int
+	{
+		return $this->addressInformationID;
+	}
+
+	public function getBankAccountID(): int
+	{
+		return $this->bankAccountID;
+	}
 
 	public function getFirstName(): string
 	{
@@ -26,7 +38,7 @@ class MemberRDGW
 		return $this->birthDate;
 	}
 
-	public function getGender(): Gender
+	public function getGender(): string
 	{
 		return $this->gender;
 	}
@@ -66,7 +78,7 @@ class MemberRDGW
 		$this->birthDate = $val;
 	}
 
-	public function setGender(Gender $val): void
+	public function setGender(string $val): void
 	{
 		$this->gender = $val;
 	}
