@@ -103,9 +103,8 @@ class MemberRDGW
 		$this->clubID = $val;
 	}
 
-	public function insert(): int
+	public function insert(): void
 	{
-		return 1;
 	}
 
 	public function update(): void
