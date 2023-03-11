@@ -1,5 +1,7 @@
 <?php
 
+namespace RDGW\BankAccount;
+
 class BankAccountRDGW
 {
 	private $bic;

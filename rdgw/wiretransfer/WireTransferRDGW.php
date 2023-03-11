@@ -1,5 +1,9 @@
 <?php
 
+namespace RDGW\WireTransfer;
+
+use DateTime;
+
 class WireTransferRDGW
 {
 	private $transferDate;

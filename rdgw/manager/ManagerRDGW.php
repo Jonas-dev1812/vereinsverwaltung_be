@@ -1,5 +1,7 @@
 <?php
 
+namespace RDGW\Manager;
+
 class ManagerRDGW
 {
 	private $username;

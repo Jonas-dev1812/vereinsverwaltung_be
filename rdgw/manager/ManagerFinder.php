@@ -1,5 +1,7 @@
 <?php
 
+namespace RDGW\Manager;
+
 class ManagerFinder
 {
 	public function find(int $id): ManagerRDGW

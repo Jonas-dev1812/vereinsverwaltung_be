@@ -1,5 +1,7 @@
 <?php
 
+namespace RDGW\Club;
+
 class ClubRDGW {
 
 	private $clubName;

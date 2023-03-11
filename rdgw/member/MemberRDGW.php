@@ -1,7 +1,16 @@
 <?php
 
-class MemberRDGW
+namespace RDGW\Member;
+
+use DateTime;
+use JsonSerializable;
+
+class MemberRDGW implements JsonSerializable
 {
+	private $ID;
+	private $clubID;
+	private $addressInformationID;
+	private $bankAccountID;
 	private $firstName;
 	private $lastName;
 	private $birthDate;
@@ -9,9 +18,11 @@ class MemberRDGW
 	private $telephoneNumber;
 	private $email;
 	private $discount;
-	private $clubID;
-	private $addressInformationID;
-	private $bankAccountID;
+
+	public function getID(): int
+	{
+		return $this->ID;
+	}
 
 	public function getAddressInformationID(): int
 	{
@@ -63,6 +74,11 @@ class MemberRDGW
 		return $this->clubID;
 	}
 
+	public function setID(string $val): void
+	{
+		$this->ID = $val;
+	}
+
 	public function setFirstName(string $val): void
 	{
 		$this->firstName = $val;
@@ -103,11 +119,35 @@ class MemberRDGW
 		$this->clubID = $val;
 	}
 
+	public function setBankAccountID(int $val): void
+	{
+		$this->bankAccountID = $val;
+	}
+
+	public function setAddressInformationID(int $val): void
+	{
+		$this->addressInformationID = $val;
+	}
+
 	public function insert(): void
 	{
 	}
 
 	public function update(): void
 	{
+	}
+
+	public function jsonSerialize()
+	{
+		return [
+			"ID" => $this->getID(),
+			"bankAccountID" => $this->getBankAccountID(),
+			"clubID" => $this->getClubID(),
+			"addressInformationID" => $this->getAddressInformationID(),
+			"telephoneNumber" => $this->getTelephoneNumber(),
+			"email" => $this->getEmail(),
+			"gender" => $this->getGender(),
+			"getBirthDate" => $this->getBirthDate()->format("Y-m-d")
+		];
 	}
 }

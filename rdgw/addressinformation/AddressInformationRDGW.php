@@ -1,5 +1,7 @@
 <?php
 
+namespace RDGW\AddressInformation;
+
 class AddressInformationRDGW
 {
 	private $street;
