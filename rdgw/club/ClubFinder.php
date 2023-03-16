@@ -2,9 +2,18 @@
 
 namespace RDGW\Club;
 
-class ClubFinder
+use RDGW\Finder;
+use RDGW\IFinder;
+use RDGW\IGateway;
+
+class ClubFinder extends Finder implements IFinder
 {
-	public function find(int $id): ClubRDGW
+	protected function getTableName(): string
+	{
+		return "Club";
+	}
+
+	protected function getGatewayInstance(): IGateway
 	{
 		return new ClubRDGW();
 	}

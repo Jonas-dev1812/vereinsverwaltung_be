@@ -2,9 +2,18 @@
 
 namespace RDGW\BankAccount;
 
-class BankAccountFinder
+use RDGW\Finder;
+use RDGW\IFinder;
+use RDGW\IGateway;
+
+class BankAccountFinder extends Finder implements IFinder
 {
-	public function find(int $id): BankAccountRDGW
+	protected function getTableName(): string
+	{
+		return "BankAccount";
+	}
+
+	protected function getGatewayInstance(): IGateway
 	{
 		return new BankAccountRDGW();
 	}

@@ -1,6 +1,10 @@
 <?php
-include('../config/Config.php');
 
+namespace DataBase;
+
+use PDO;
+
+include(__DIR__.'/../config/Config.php');
 class Database {
     private static $instance = null;
     private $connection;

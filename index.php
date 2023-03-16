@@ -1,5 +1,9 @@
 <?php
 
+use Domain\Models\Club\Club;
+use Domain\Models\Club\ClubFactory;
+use RDGW\Club\ClubFinder;
+
 require_once("bootstrap.php");
 
 header("Access-Control-Allow-Origin: *");
@@ -20,7 +24,21 @@ $id = null;
 if (isset($uri[4]) && is_numeric($uri[4])) {
 	$id = (int) $uri[4];
 }
+
+$data = [];
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-$controller = $controllerClass->newInstance($requestMethod, $id);
+if (in_array($requestMethod, ["PUT", "PATCH"])) {
+	$input = urldecode(file_get_contents("php://input", false, stream_context_get_default(), 0, $_SERVER["CONTENT_LENGTH"]));
+	parse_str($input, $data);
+}
+
+$controller = $controllerClass->newInstance($requestMethod, $data, $id);
 $controller->processRequest();
+
+
+$finder = new ClubFinder();
+$clubGateway = $finder->find(1);
+$clubFactory = new ClubFactory();
+$club = $clubFactory->createClub($clubGateway);
+$club->collectMoney();

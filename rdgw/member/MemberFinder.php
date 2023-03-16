@@ -2,32 +2,40 @@
 
 namespace RDGW\Member;
 
-use DateTime;
+use DataBase\Database;
+use PDO;
+use RDGW\Finder;
+use RDGW\IGateway;
 
-class MemberFinder
+class MemberFinder extends Finder
 {
-	public function find(int $id): MemberRDGW
+	protected function getTableName(): string
 	{
-		$memberRDGW = new MemberRDGW();
-		$memberRDGW->setClubID(1);
-		$memberRDGW->setDiscount(50);
-		$memberRDGW->setEmail("test@test.com");
-		$memberRDGW->setTelephoneNumber("05405 7410");
-		$memberRDGW->setFirstName("Lea");
-		$memberRDGW->setLastName("Rieping");
-		$memberRDGW->setGender("W");
-		$memberRDGW->setBirthDate(new DateTime());
-		$memberRDGW->setBankAccountID(1);
-		$memberRDGW->setAddressInformationID(1);
-		$memberRDGW->setID($id);
-		return $memberRDGW;
+		return "Member";
 	}
 
+	protected function getGatewayInstance(): IGateway
+	{
+		return new MemberRDGW();
+	}
 	/**
 	 * @return MemberRDGW[]
 	 */
 	public function findByClub(int $clubID): array
 	{
-		return [];
+		$gateways = [];
+
+		$db = Database::getInstance();
+		$pdo = $db->getConnection();
+		$stmt = $pdo->prepare("SELECT * FROM {$this->getTableName()} WHERE ClubID = ?");
+		$stmt->execute([$clubID]);
+
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			$gateway = $this->getGatewayInstance();
+			$gateway->setByArray($row);
+			$gateways[] = $gateway;
+		}
+
+		return $gateways;
 	}
 }

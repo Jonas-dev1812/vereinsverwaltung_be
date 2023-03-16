@@ -2,9 +2,17 @@
 
 namespace RDGW\WireTransfer;
 
-class WireTransferFinder
+use RDGW\Finder;
+use RDGW\IGateway;
+
+class WireTransferFinder extends Finder
 {
-	public function find(int $id): WireTransferRDGW
+	protected function getTableName(): string
+	{
+		return "WireTransfer";
+	}
+
+	protected function getGatewayInstance(): IGateway
 	{
 		return new WireTransferRDGW();
 	}

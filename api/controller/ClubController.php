@@ -2,20 +2,20 @@
 
 namespace API\Controller;
 
+use RDGW\Club\ClubFinder;
+use RDGW\Club\ClubRDGW;
 use RDGW\IFinder;
 use RDGW\IGateway;
-use RDGW\Member\MemberFinder;
-use RDGW\Member\MemberRDGW;
 
-class MemberController extends GatewayController
+class ClubController extends GatewayController
 {
 	public function getFinder(): IFinder
 	{
-		return new MemberFinder();
+		return new ClubFinder();
 	}
 
 	public function getNewGatewayInstance(): IGateway
 	{
-		return new MemberRDGW();
+		return new ClubRDGW();
 	}
 }

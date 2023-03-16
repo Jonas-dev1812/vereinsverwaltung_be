@@ -2,7 +2,10 @@
 
 namespace RDGW\BankAccount;
 
-class BankAccountRDGW
+use PDOStatement;
+use RDGW\Gateway;
+
+class BankAccountRDGW extends Gateway
 {
 	private $bic;
 	private $iban;
@@ -38,11 +41,44 @@ class BankAccountRDGW
 		$this->name = $name;
 	}
 
-	public function insert(): void
+	protected function getPreparedInsertStatementString(): string
 	{
+		return "INSERT INTO {$this->getTableName()} (name, bic, iban) VALUES (?, ?, ?)";
 	}
 
-	public function update(): void
+	protected function getPreparedUpdateStatementString(): string
 	{
+		return "UPDATE {$this->getTableName()} SET name = ?, bic = ?, iban = ? WHERE ID = {$this->getID()}";
+	}
+
+	protected function executePreparedStatement(PDOStatement $stmt): void
+	{
+		$stmt->execute([$this->getName(), $this->getBic(), $this->getIban()]);
+	}
+
+	protected function getTableName(): string
+	{
+		return "BankAccount";
+	}
+
+	public function setByArray(array $array): void
+	{
+		$this->bic = $array["bic"];
+		$this->iban = $array["iban"];
+		$this->name = $array["name"];
+
+		if(isset($array["ID"])){
+			$this->setID($array["ID"]);
+		}
+	}
+
+	public function jsonSerialize()
+	{
+		return [
+			"ID" => $this->getID(),
+			"bic" => $this->getBic(),
+			"iban" => $this->getIban(),
+			"name" => $this->getName()
+		];
 	}
 }

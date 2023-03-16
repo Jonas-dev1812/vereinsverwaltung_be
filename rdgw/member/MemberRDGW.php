@@ -3,11 +3,11 @@
 namespace RDGW\Member;
 
 use DateTime;
-use JsonSerializable;
+use PDOStatement;
+use RDGW\Gateway;
 
-class MemberRDGW implements JsonSerializable
+class MemberRDGW extends Gateway
 {
-	private $ID;
 	private $clubID;
 	private $addressInformationID;
 	private $bankAccountID;
@@ -18,11 +18,6 @@ class MemberRDGW implements JsonSerializable
 	private $telephoneNumber;
 	private $email;
 	private $discount;
-
-	public function getID(): int
-	{
-		return $this->ID;
-	}
 
 	public function getAddressInformationID(): int
 	{
@@ -72,11 +67,6 @@ class MemberRDGW implements JsonSerializable
 	public function getClubID(): int
 	{
 		return $this->clubID;
-	}
-
-	public function setID(string $val): void
-	{
-		$this->ID = $val;
 	}
 
 	public function setFirstName(string $val): void
@@ -129,12 +119,43 @@ class MemberRDGW implements JsonSerializable
 		$this->addressInformationID = $val;
 	}
 
-	public function insert(): void
+	protected function getPreparedInsertStatementString(): string
 	{
+		return "INSERT INTO {$this->getTableName()} (bankAccountID, clubID, addressInformationID, telephoneNumber, email, gender, birthDate, firstName, lastName, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
 
-	public function update(): void
+	protected function getPreparedUpdateStatementString(): string
 	{
+		return "UPDATE {$this->getTableName()} SET bankAccountID = ?, clubID = ?, addressInformationID = ?, telephoneNumber = ?, email = ?, gender = ?, birthDate = ?, firstName = ?, lastName = ?, discount = ? WHERE ID = {$this->getID()}";
+	}
+
+	protected function executePreparedStatement(PDOStatement $stmt): void
+	{
+		$stmt->execute([$this->getBankAccountID(), $this->getClubID(), $this->getAddressInformationID(), $this->getTelephoneNumber(), $this->getEmail(), $this->getGender(), $this->getBirthDate()->format("Y-m-d"), $this->getFirstName(), $this->getLastName(), $this->getDiscount()]);
+	}
+
+	protected function getTableName(): string
+	{
+		return "Member";
+	}
+
+	public function setByArray(array $array): void
+	{
+		$birthDate = DateTime::createFromFormat("Y-m-d", $array["birthDate"]);
+		$this->setAddressInformationID($array["addressInformationID"]);
+		$this->setBankAccountID($array["bankAccountID"]);
+		$this->setBirthDate($birthDate);
+		$this->setClubID($array["clubID"]);
+		$this->setDiscount($array["discount"]);
+		$this->setEmail($array["email"]);
+		$this->setGender($array["gender"]);
+		$this->setLastName($array["lastName"]);
+		$this->setTelephoneNumber($array["telephoneNumber"]);
+		$this->setFirstName($array["firstName"]);
+
+		if (isset($array["ID"])) {
+			$this->setID($array["ID"]);
+		}
 	}
 
 	public function jsonSerialize()
@@ -147,7 +168,10 @@ class MemberRDGW implements JsonSerializable
 			"telephoneNumber" => $this->getTelephoneNumber(),
 			"email" => $this->getEmail(),
 			"gender" => $this->getGender(),
-			"getBirthDate" => $this->getBirthDate()->format("Y-m-d")
+			"birthDate" => $this->getBirthDate()->format("Y-m-d"),
+			"firstName" => $this->getFirstName(),
+			"lastName" => $this->getLastName(),
+			"discount" => $this->getDiscount()
 		];
 	}
 }

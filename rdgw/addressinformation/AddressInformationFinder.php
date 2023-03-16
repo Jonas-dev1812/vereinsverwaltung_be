@@ -2,9 +2,18 @@
 
 namespace RDGW\AddressInformation;
 
-class AddressInformationFinder
+use RDGW\Finder;
+use RDGW\IFinder;
+use RDGW\IGateway;
+
+class AddressInformationFinder extends Finder implements IFinder
 {
-	public function find(int $id): AddressInformationRDGW
+	protected function getTableName(): string
+	{
+		return "AddressInformation";
+	}
+
+	protected function getGatewayInstance(): IGateway
 	{
 		return new AddressInformationRDGW();
 	}
