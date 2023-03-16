@@ -1,5 +1,9 @@
 <?php
 
+namespace Domain\Models\Manager;
+
+use RDGW\Manager\ManagerRDGW;
+
 class Manager
 {
 	protected $rdgw;
