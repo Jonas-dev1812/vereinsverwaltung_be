@@ -20,9 +20,16 @@ $type = $uri[3];
 $controllerClass = new ReflectionClass("api\controller\\" . ucwords($type) . "Controller");
 
 $id = null;
+$customEndpoint = null;
 
 if (isset($uri[4]) && is_numeric($uri[4])) {
 	$id = (int) $uri[4];
+} else if (isset($uri[4])) {
+	$customEndpoint = $uri[4];
+}
+
+if (isset($uri[5])) {
+	$customEndpoint = $uri[5];
 }
 
 $data = [];
@@ -33,12 +40,5 @@ if (in_array($requestMethod, ["PUT", "PATCH"])) {
 	parse_str($input, $data);
 }
 
-$controller = $controllerClass->newInstance($requestMethod, $data, $id);
+$controller = $controllerClass->newInstance($requestMethod, $data, $id, $customEndpoint);
 $controller->processRequest();
-
-
-$finder = new ClubFinder();
-$clubGateway = $finder->find(1);
-$clubFactory = new ClubFactory();
-$club = $clubFactory->createClub($clubGateway);
-$club->collectMoney();

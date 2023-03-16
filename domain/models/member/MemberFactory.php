@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Models\Club;
+namespace Domain\Models\Member;
 
 use Domain\Models\AddressInformation\AddressInformation;
 use Domain\Models\BankAccount\BankAccount;
@@ -21,7 +21,7 @@ class MemberFactory
 	 */
 	protected $member;
 
-	public function createClub(MemberRDGW $gateway): Member
+	public function createMember(MemberRDGW $gateway): Member
 	{
 		$this->gateway = $gateway;
 		$this->member =  new Member($gateway);

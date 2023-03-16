@@ -10,20 +10,26 @@ use Throwable;
 abstract class GatewayController
 {
 	// TODO Authentification
-	private $requestMethod;
-	private $id;
-	private $data;
+	protected $requestMethod;
+	protected $id;
+	protected $data;
+	protected $customEndpoint;
 
-	public function __construct(string $requestMethod, array $data = [], ?int $id)
+	public function __construct(string $requestMethod, array $data = [], ?int $id, string $customEndpoint = null)
 	{
 		$this->requestMethod = $requestMethod;
 		$this->id = $id;
 		$this->data = $data;
+		$this->customEndpoint = $customEndpoint;
 	}
 
 	public function processRequest()
 	{
 		try{
+			if ($this->customEndpoint) {
+				$this->handleCustomEndpoint();
+				return;
+			}
 			if ($this->id !== null) {
 				$this->processRequestWithID();
 			} else {
@@ -89,4 +95,20 @@ abstract class GatewayController
 	
 	abstract function getFinder(): IFinder;
 	abstract function getNewGatewayInstance(): IGateway;
+	private final function handleCustomEndpoint(): void
+	{
+		if ($this->id) {
+			$this->handleCustomEndointWithID();
+		} else {
+			$this->handleCustomEndpointWithoutID();
+		}
+	}
+
+	protected function handleCustomEndointWithID()
+	{
+	}
+
+	protected function handleCustomEndpointWithoutID()
+	{
+	}
 }

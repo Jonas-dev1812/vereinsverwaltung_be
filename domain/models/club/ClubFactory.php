@@ -3,7 +3,7 @@
 namespace Domain\Models\Club;
 
 use Domain\Models\BankAccount\BankAccount;
-use Domain\Models\Member\Member;
+use Domain\Models\Member\MemberFactory;
 use RDGW\BankAccount\BankAccountFinder;
 use RDGW\Club\ClubRDGW;
 use RDGW\Member\MemberFinder;
@@ -44,9 +44,9 @@ class ClubFactory
 		$members = [];
 		$memberFinder = new MemberFinder();
 		$memberGateways = $memberFinder->findByClub($this->gateway->getID());
-
+		$memberFactory = new MemberFactory();
 		foreach ($memberGateways as $memberGateway) {
-			$members[] = new Member($memberGateway);
+			$members[] = $memberFactory->createMember($memberGateway);
 		}
 
 		$this->club->setMembers($members);
